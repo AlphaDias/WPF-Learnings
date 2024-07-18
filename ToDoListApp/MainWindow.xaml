@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListApp"
         mc:Ignorable="d"
+        xmlns:resx="clr-namespace:ToDoListApp.Properties"
+
         Title="MainWindow" Height="600" Width="800">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <StackPanel Margin="10">
-            <TextBlock Text="Todo Application" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="24"/>
+            <TextBlock x:Name="Title" Text="Todo Application" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="24"/>
 
             <GroupBox Header="Filter by Status" Padding="5">
                 <ComboBox ItemsSource="{Binding StatusOptions}"
@@ -70,7 +72,7 @@
                         <Button x:Name="AddBtn"
                                 Width="90"
                                 HorizontalAlignment="Left"
-                                Content="Add" 
+                                Content = ""
                                 Command="{Binding AddTaskCommand}"
                                 Margin="5,0"/>
                         <Button x:Name="UpdateBtn"
@@ -94,8 +96,8 @@
                     </DockPanel>
                 </StackPanel>
             </GroupBox>
-            <Button Content="Trigger UI Thread Exception" Click="TriggerUIThreadException_Click" Margin="5"/>
-            <Button Content="Trigger Non-UI Thread Exception" Click="TriggerNonUIThreadException_Click" Margin="5"/>
+            <!--<Button Content="Trigger UI Thread Exception" Click="TriggerUIThreadException_Click" Margin="5"/>
+            <Button Content="Trigger Non-UI Thread Exception" Click="TriggerNonUIThreadException_Click" Margin="5"/>-->
         </StackPanel>
     </ScrollViewer>
 </Window>

@@ -6,8 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Linq;
 using ToDoApp.Models;
 using ToDoApp_BusinessLogic.Repositories;
+using Unity;
 
 namespace ToDoListApp.ViewModel
 {
@@ -22,11 +24,12 @@ namespace ToDoListApp.ViewModel
         private string _selectedStatusFilter;
         private DateTime _dueDate = DateTime.Today;
 
+       // private readonly ITaskRepository _taskRepository;
 
         public MainViewModel(ITaskRepository taskRepository)
         {
-            _taskRepository = taskRepository;
-            // Initialize commands
+            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
+            
             AddTaskCommand = new RelayCommand(AddTask);
             UpdateTaskCommand = new RelayCommand(UpdateTask, CanUpdateOrDeleteTask);
             DeleteTaskCommand = new RelayCommand(DeleteTask, CanUpdateOrDeleteTask);
@@ -125,16 +128,26 @@ namespace ToDoListApp.ViewModel
 
         public void LoadTasks()
         {
-            _allTasks = _taskRepository.GetAllTasks();
-            Tasks = new ObservableCollection<TaskModel>(_allTasks);
-            foreach (var task in _allTasks)
-            {
-                task.PropertyChanged += Task_PropertyChanged;
-            }
-            ApplyStatusFilter();
+           
+                _allTasks = _taskRepository.GetAllTasks();
+
+                // Check if _allTasks is null, initialize an empty collection if null
+                if (_allTasks == null)
+                {
+                    _allTasks = new ObservableCollection<TaskModel>();
+                }
+
+                Tasks = new ObservableCollection<TaskModel>(_allTasks);
+                foreach (var task in _allTasks)
+                {
+                    task.PropertyChanged += Task_PropertyChanged;
+                }
+                ApplyStatusFilter();
+            
+
         }
 
-        private void AddTask(object parameter)
+        public void AddTask(object parameter)
         {
             var newTask = new TaskModel
             {
@@ -166,7 +179,7 @@ namespace ToDoListApp.ViewModel
             }
         }
 
-        private void DeleteTask(object parameter)
+        public void DeleteTask(object parameter)
         {
             if (SelectedTask != null)
             {
@@ -176,7 +189,7 @@ namespace ToDoListApp.ViewModel
             }
         }
 
-        private void ClearAllTasks(object parameter)
+        public void ClearAllTasks(object parameter)
         {
             _taskRepository.DeleteAllTasks();
             LoadTasks();
@@ -197,7 +210,7 @@ namespace ToDoListApp.ViewModel
             DueDate = DateTime.Today; 
         }
 
-        private void ApplyStatusFilter()
+        public void ApplyStatusFilter()
         {
             if (_allTasks == null)
                 return;
@@ -215,7 +228,7 @@ namespace ToDoListApp.ViewModel
             }
         }
 
-        private void Search(object parameter)
+        public void Search(object parameter)
         {
             if (string.IsNullOrEmpty(SearchKeyword))
             {

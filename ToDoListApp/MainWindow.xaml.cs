@@ -13,7 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToDoApp_BusinessLogic.Repositories;
 using ToDoListApp.ViewModel;
+using Unity;
 
 namespace ToDoListApp
 {
@@ -22,12 +24,15 @@ namespace ToDoListApp
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
-            var taskRepository = DatabaseService.InitializeRepository(); 
-            DataContext = new MainViewModel(taskRepository);
-           
+            UnityContainerProvider.RegisterTypes();
+          
+           // var mainWindow = UnityContainerProvider.Resolve<ITaskRepository>();
+             DataContext = new MainViewModel(UnityContainerProvider.Resolve<ITaskRepository>());
+
         }
         private void TriggerUIThreadException_Click(object sender, RoutedEventArgs e)
         {

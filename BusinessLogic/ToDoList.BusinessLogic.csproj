@@ -58,6 +58,7 @@
     <Compile Include="Services\StatusFilteringService.cs" />
     <Compile Include="Services\SearchService.cs" />
     <Compile Include="Services\TaskService.cs" />
+    <Compile Include="Services\UnityContainerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\ToDoList.DataAccess.csproj">

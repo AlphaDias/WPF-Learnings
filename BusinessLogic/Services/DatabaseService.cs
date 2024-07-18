@@ -14,8 +14,6 @@ namespace BusinessLogic.Services
 {
     public class DatabaseService
     {
-        
-
         public static ITaskRepository InitializeRepository()
         {
             IUnityContainer container = new UnityContainer();
@@ -23,6 +21,7 @@ namespace BusinessLogic.Services
                 new InjectionConstructor(Getconnectionstr()));
 
             container.RegisterType<ITaskRepository, TaskRepository>();
+
             var taskRepository = container.Resolve<ITaskRepository>();
 
             return taskRepository;
